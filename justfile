@@ -50,12 +50,7 @@ commit message="init":
 exe file_name:
     #!pwsh
     pyinstaller src/{{file_name}} --onefile
-
-# run python unit test 
-tests:
-    #!pwsh
-    python -m unittest discover -s tests
-
+ 
 # run project
 run:
     #!pwsh
@@ -70,22 +65,7 @@ quit:
 install:
     #!pwsh
     pip install -r requirements.txt
-
-# lint code
-lint:
-    #!pwsh
-    pylint src/
-    flake8 src/
-
-# format code
-format:
-    #!pwsh
-    black src/
-
-# run security checks
-security:
-    #!pwsh
-    bandit -r src/
+  
 
 # build documentation
 build-docs:
@@ -93,14 +73,16 @@ build-docs:
     mkdocs build
 
 # deploy application
-deploy:
+deploy message="auto-deply" :
     #!pwsh
     git pull origin main --force
-    @test 
-    @security
-    @lint
-    @format
-    @commit
+    python -m unittest discover -s tests 
+    bandit -r src/
+    pylint src/
+    flake8 src/
+    black src/
+    git add .
+    git commit -m {{message}}
     git push -u origin main
 
 # setup logging
@@ -128,7 +110,7 @@ todos:
     #!pwsh
     wic
 
-timeit cmd=start:
+timeit cmd="start":
     #!pwsh
     timetrace {{cmd}} # start, stop, list
 
