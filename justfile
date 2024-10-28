@@ -56,11 +56,6 @@ deploy:
     $CommitMessage = Read-Host "Enter your commit message"
     Invoke-DeployChecks -CommitMessage $CommitMessage
 
-# setup logging
-setup-logging:
-    #!pwsh
-    Initialize-LoggingConfig -LogLevel "DEBUG"
-
 # view logs
 view-logs:
     #!pwsh
