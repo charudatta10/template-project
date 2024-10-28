@@ -18,27 +18,21 @@
 
 set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 
-env_path := "C:/Users/$env:username/Documents/GitHub"
+local__path := "C:/Users/$env:username/Documents/GitHub/"
 
 default:
-    @just --choose
+    @just --list
 
 # create files and directories
 init:
     #!pwsh
-    New-Project.ps1
+    $ProjectName = Read-Host "Enter your project name"
+    Initialize-Project -ProjectName $ProjectName
 
 # add documentation to repo
 docs:
     #!pwsh
-    conda activate blog
-    python -m mkdocs new .
-
-# generate and readme to repo    
-readme:
-    #!pwsh
-    conda activate w
-    python {{env_path}}/readmeGen/main.py
+    mkdocs build
 
 # version control repo with git
 commit message="init":
@@ -61,34 +55,16 @@ quit:
     #!pwsh
     write-Host "Copyright © 2024 Charudatta"
     
-# install dependencies
-install:
-    #!pwsh
-    pip install -r requirements.txt
-  
-
-# build documentation
-build-docs:
-    #!pwsh
-    mkdocs build
-
 # deploy application
-deploy message="auto-deply" :
+deploy:
     #!pwsh
-    git pull origin main --force
-    python -m unittest discover -s tests 
-    bandit -r src/
-    pylint src/
-    flake8 src/
-    black src/
-    git add .
-    git commit -m {{message}}
-    git push -u origin main
+    $CommitMessage = Read-Host "Enter your commit message"
+    Invoke-DeployChecks -CommitMessage $CommitMessage
 
 # setup logging
 setup-logging:
     #!pwsh
-    Add-Logger.ps1
+    Initialize-LoggingConfig -LogLevel "DEBUG"
 
 # view logs
 view-logs:
@@ -100,19 +76,10 @@ clean:
     #!pwsh
     Remove-Item -Recurse -Force dist, build, *.egg-info
 
-# check for updates
-update:
-    #!pwsh
-    pip list --outdated
-
 # project mangement add task and todos 
-todos:
+tasks:
     #!pwsh
-    wic
-
-timeit cmd="start":
-    #!pwsh
-    timetrace {{cmd}} # start, stop, list
+    python {{local__path}}"project-manager/src/project-manager-cli"
 
 # Add custom tasks, enviroment variables
 
