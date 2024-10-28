@@ -45,11 +45,6 @@ exe file_name:
     #!pwsh
     pyinstaller src/{{file_name}} --onefile
  
-# run project
-run:
-    #!pwsh
-    python run.py
-
 # exit just file
 quit:
     #!pwsh
@@ -83,7 +78,10 @@ tasks:
 
 # Add custom tasks, enviroment variables
 
-
+# run project
+# run:
+#    #!pwsh
+#   python run.py
 
 
 
