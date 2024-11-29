@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-#    email contact: 152109007c@gmailcom
+#    email contact: 152109007c@gmail.com
 
 set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 
@@ -66,12 +66,12 @@ clean:
     #!pwsh
     Remove-Item -Recurse -Force dist, build, *.egg-info
 
-# project mangement add task and todos 
+# project management add task and todos 
 tasks:
     #!pwsh
     python {{local__path}}"project-manager/src/project-manager-cli"
 
-# Add custom tasks, enviroment variables
+# Add custom tasks, environment variables
 
 # run project
 # run:
